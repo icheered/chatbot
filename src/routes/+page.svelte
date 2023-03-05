@@ -1,7 +1,5 @@
 <script lang="ts">
 	import ChatMessage from '$lib/components/ChatMessage.svelte'
-	import UserMessage from '$lib/components/UserMessage.svelte'
-	import BotMessage from '$lib/components/BotMessage.svelte'
 	import TextBox from '$lib/components/TextBox.svelte'
 	import type { ChatCompletionRequestMessage } from 'openai'
 	import { SSE } from 'sse.js'
@@ -21,12 +19,8 @@
 	// }
 
 	const handleSubmit = async () => {
-		console.log('Handling submit')
-		console.log('🚀 ~ file: +page.svelte:10 ~ query:', query)
 		loading = true
 		chatMessages = [...chatMessages, { role: 'user', content: query }]
-		console.log('🚀 ~ file: +page.svelte:26 ~ handleSubmit ~ chatMessages:', chatMessages)
-
 		const eventSource = new SSE('/api/chat', {
 			headers: {
 				'Content-Type': 'application/json'
@@ -68,14 +62,6 @@
 		answer = ''
 		console.error(err)
 	}
-
-	let testText = `
-	Something
-	\`\`\`python
-	print("Hello world")
-	\`\`\`
-	Thats about it
-	`
 </script>
 
 <div class=" overflow-x-hidden w-full h-full relative">
@@ -83,22 +69,27 @@
 		<main
 			class="relative h-full w-full transition-width  bg-[#343541] flex flex-col items-stretch flex-1"
 		>
+			<div
+				class="flex w-full items-center justify-center gap-1 border-b  p-3  border-gray-900/50 bg-[#40414F] text-gray-300"
+			>
+				ICheered: Chatbot
+			</div>
 			<div class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full">
+				<ChatMessage sender="bot" text={'Hi, how can I help you?'} />
+				<!-- <ChatMessage sender="bot" text={'This is some text'} />
+				<ChatMessage sender="user" text={'This is some text'} /> -->
+
 				{#if !chatMessages.length}
 					<BackgroundText />
 				{/if}
 				{#each chatMessages as message}
-					{#if message.role == 'assistant'}
-						<BotMessage text={message.content} />
-					{:else if message.role == 'user'}
-						<UserMessage text={message.content} />
-					{/if}
+					<ChatMessage sender={message.role == 'user' ? 'user' : 'bot'} text={message.content} />
 				{/each}
 				{#if answer}
-					<BotMessage text={answer} />
+					<ChatMessage sender="bot" text={answer} />
 				{/if}
 				{#if loading}
-					<BotMessage text={'Loading'} />
+					<ChatMessage sender="bot" text="loading..." />
 				{/if}
 			</div>
 		</main>

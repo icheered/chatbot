@@ -14,19 +14,19 @@
 </script>
 
 <div
-	class="absolute bottom-0 left-0 w-full px-8 border-t-2  border-white/20  md:bg-vert-light-gradient bg-[#343541] md:bg-vert-dark-gradient"
+	class="absolute bottom-0 left-0 w-full px-8 border-t-2 p-4 pb-2  border-white/20  md:bg-vert-light-gradient bg-[#343541] md:bg-vert-dark-gradient"
 >
 	<form
-		class="stretch mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl lg:pt-6"
+		class="stretch mx-2 flex flex-row gap-3 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl"
 		on:submit|preventDefault={() => handleSubmit()}
 		on:keydown={handleKeyDown}
 	>
 		<div class="relative flex h-full flex-1 md:flex-col">
 			<div
-				class="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative text-white bg-gray-700 rounded-md shadow-[0_0_15px_rgba(0,0,0,0.10)]"
+				class="flex flex-col w-full py-2 flex-grow md:py-3  relative text-white bg-[#40414F] rounded-md shadow-[0_0_15px_rgba(0,0,0,0.10)]"
 			>
 				<textarea
-					class="m-0 w-full resize-none outline-0 p-0 pl-2 pr-7 focus:ring-0 focus-visible:ring-0 bg-transparent md:pl-0"
+					class="m-0 w-full resize-none outline-0 px-2  pr-7 focus:ring-0 focus-visible:ring-0 bg-transparent "
 					style="max-height: 200px; height: {(1 + (text.match(/\n/g) || []).length) *
 						24}px; overflow-y: hidden;"
 					bind:value={text}

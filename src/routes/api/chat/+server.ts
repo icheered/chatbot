@@ -56,7 +56,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		const prompt =
 			'You are a virtual assistant called ICheered'
 		tokenCount += getTokens(prompt)
-		console.log("🚀 ~ file: +server.ts:59 ~ constPOST:RequestHandler= ~ tokenCount:", tokenCount)
+		console.log("🚀 ~ tokenCount:", tokenCount)
 
 		if (tokenCount >= 4000) {
 			throw new Error('Query too large')
