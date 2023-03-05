@@ -3,7 +3,7 @@
 	import AssistantIcon from '$lib/icons/AssistantIcon.svelte'
 	import UserIcon from '$lib/icons/UserIcon.svelte'
 	import ClipboardIcon from '$lib/icons/ClipboardIcon.svelte'
-	import { showRaw } from '$lib/settings'
+	import { showRaw } from '$lib/store'
 
 	export let text: string
 	export let sender: string

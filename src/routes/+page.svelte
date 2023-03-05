@@ -4,12 +4,9 @@
 	import TextBox from '$lib/components/TextBox.svelte'
 	import { SSE } from 'sse.js'
 	import BackgroundText from '$lib/components/BackgroundText.svelte'
-	import Toggle from '$lib/components/Toggle.svelte'
-	import { showRaw } from '$lib/settings'
 	import { v4 as uuidv4 } from 'uuid'
 	import { onMount } from 'svelte'
 	import { upsertMessages, getThreads, updateThreadName } from '$lib/supabase'
-	import { Configuration, OpenAIApi } from 'openai'
 
 	let query: string = ''
 	let answer: string = ''
@@ -136,10 +133,6 @@
 			>
 				ICheered: Chatbot
 			</div>
-			<!-- <div class="absolute pt-3 flex flex-row justify-center">
-				<div class="pr-2">Show raw:</div>
-				<Toggle bind:state={$showRaw} />
-			</div> -->
 			<div class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full">
 				<ChatMessage sender="assistant" text={'Hi, how can I help you?'} />
 

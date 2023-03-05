@@ -2,8 +2,8 @@
 	import PlusIcon from '$lib/icons/PlusIcon.svelte'
 
 	import ThreadComponent from '$lib/components/ThreadComponent.svelte'
-
-	import { threads, thread_id, chatMessages, new_thread } from '$lib/store'
+	import Toggle from '$lib/components/Toggle.svelte'
+	import { threads, thread_id, chatMessages, new_thread, showRaw } from '$lib/store'
 	import { v4 as uuidv4 } from 'uuid'
 
 	function newChat() {
@@ -29,5 +29,9 @@
 				<ThreadComponent {thread} />
 			{/each}
 		</div>
+	</div>
+	<div class="pt-3 flex flex-row justify-center">
+		<div class="pr-2">Show raw:</div>
+		<Toggle bind:state={$showRaw} />
 	</div>
 </nav>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { HighlightAuto } from 'svelte-highlight'
 	import ClipboardIcon from '$lib/icons/ClipboardIcon.svelte'
+	import CheckIcon from '$lib/icons/CheckIcon.svelte'
 	import atomOneDark from 'svelte-highlight/styles/atom-one-dark'
 
 	export let text: string
@@ -15,6 +16,16 @@
 			return ''
 		}
 	})()
+
+	let copied: boolean = false
+
+	function copyToClipboard() {
+		navigator.clipboard.writeText(code)
+		copied = true
+		// setTimeout(() => {
+		// 	copied = false
+		// }, 3000)
+	}
 </script>
 
 <svelte:head>
@@ -25,8 +36,14 @@
 	<div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans">
 		<span>{language}</span>
 		<button class="flex flex-row items-center ml-auto gap-2">
-			<ClipboardIcon />
-			<div>Copy code</div>
+			{#if copied}
+				<CheckIcon />
+				<div>Copied!</div>
+			{:else}
+				<ClipboardIcon />
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<div on:click={copyToClipboard}>Copy code</div>
+			{/if}
 		</button>
 	</div>
 	<div class="-mt-6">
