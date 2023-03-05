@@ -21,7 +21,7 @@
 	{@html atomOneDark}
 </svelte:head>
 
-<div class="bg-black mb-4 rounded-md w-96">
+<div class="bg-black mb-4 rounded-md overflow-x-hidden w-full">
 	<div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans">
 		<span>{language}</span><button class="flex ml-auto gap-2"
 			><svg

@@ -4,6 +4,7 @@
 	import type { ChatCompletionRequestMessage } from 'openai'
 	import { SSE } from 'sse.js'
 	import BackgroundText from '$lib/components/BackgroundText.svelte'
+	import { showRaw } from '$lib/settings'
 
 	let query: string = ''
 
@@ -75,21 +76,22 @@
 				ICheered: Chatbot
 			</div>
 			<div class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full">
-				<ChatMessage sender="bot" text={'Hi, how can I help you?'} />
-				<!-- <ChatMessage sender="bot" text={'This is some text'} />
-				<ChatMessage sender="user" text={'This is some text'} /> -->
+				<ChatMessage sender="assistant" text={'Hi, how can I help you?'} />
 
 				{#if !chatMessages.length}
 					<BackgroundText />
 				{/if}
 				{#each chatMessages as message}
-					<ChatMessage sender={message.role == 'user' ? 'user' : 'bot'} text={message.content} />
+					<ChatMessage
+						sender={message.role == 'user' ? 'user' : 'assistant'}
+						text={message.content}
+					/>
 				{/each}
 				{#if answer}
-					<ChatMessage sender="bot" text={answer} />
+					<ChatMessage sender="assistant" text={answer} />
 				{/if}
 				{#if loading}
-					<ChatMessage sender="bot" text="loading..." />
+					<ChatMessage sender="assistant" text="loading..." />
 				{/if}
 			</div>
 		</main>

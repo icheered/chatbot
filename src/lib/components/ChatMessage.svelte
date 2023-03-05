@@ -1,10 +1,11 @@
 <script lang="ts">
 	import CodeBlock from '$lib/components/CodeBlock.svelte'
 	import Icon from '$lib/components/Icon.svelte'
+	import { showRaw } from '$lib/settings'
 	export let text: string
 	export let sender: string
 
-	$: isBot = sender == 'bot'
+	$: isAssistant = sender == 'assistant'
 	$: isUser = sender == 'user'
 
 	function getTextArray() {
@@ -39,9 +40,9 @@
 </script>
 
 <div
-	class="w-full border-b border-gray-900/50 text-gray-100 group"
-	class:isBot={'bg-[#444654]'}
-	class:isUser={'bg-[#343541]'}
+	class={`w-full border-b border-gray-900/50 text-gray-100 group ${
+		isAssistant ? 'bg-[#444654]' : 'bg-[#343541]'
+	}`}
 >
 	<div
 		class="text-base gap-4 md:gap-6 m-auto md:max-w-2xl lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0"
@@ -51,19 +52,23 @@
 				class="relative h-[30px] w-[30px] p-1 rounded-sm text-white flex items-center justify-center"
 				style="background-color: rgb(16, 163, 127);"
 			>
-				<Icon name={isBot ? 'bot' : 'user'} />
+				<Icon name={isAssistant ? 'assistant' : 'user'} />
 			</div>
 		</div>
 		<div class="relative flex w-[calc(100%-50px)] flex-col gap-1 md:gap-3 lg:w-[calc(100%-115px)]">
 			<div class="flex flex-grow flex-col gap-3">
 				<div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap">
-					{#each getTextArray() as { type, text }}
-						{#if type === 'text'}
-							<p>{text}</p>
-						{:else}
-							<CodeBlock codestring={text} />
-						{/if}
-					{/each}
+					{#if $showRaw}
+						<p>{text}</p>
+					{:else}
+						{#each getTextArray() as { type, text }}
+							{#if type === 'text'}
+								<p>{text}</p>
+							{:else}
+								<CodeBlock codestring={text} />
+							{/if}
+						{/each}
+					{/if}
 				</div>
 			</div>
 		</div>
