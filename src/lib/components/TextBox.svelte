@@ -54,20 +54,4 @@
 			</div>
 		</div>
 	</form>
-	<!-- <form class="text-black" on:submit|preventDefault={() => testHandler()}>
-		<label>
-			Test
-			<textarea />
-		</label>
-		<button on:click={() => console.log('Clicked button')}>GO</button>
-	</form>
-
-	<form class="text-black" on:submit|preventDefault={() => testHandler()}>
-		<label>
-			Search
-			<input />
-		</label>
-
-		<button on:click={() => console.log('button clicked')}>GO</button>
-	</form> -->
 </div>

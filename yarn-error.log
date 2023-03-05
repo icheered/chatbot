@@ -1,30 +1,21 @@
 Arguments: 
-  /home/tjbakker/.nvm/versions/node/v18.12.1/bin/node /usr/local/bin/yarn add svelte-hightlight
+  /home/tjbakker/.nvm/versions/node/v18.13.0/bin/node /usr/local/bin/yarn install
 
 PATH: 
-  /home/tjbakker/.local/bin:/home/tjbakker/.nvm/versions/node/v18.12.1/bin:/home/tjbakker/.local/bin:/usr/lib64/ccache:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin
+  /home/tjbakker/.local/bin:/home/tjbakker/.nvm/versions/node/v18.13.0/bin:/home/tjbakker/.local/bin:/home/tjbakker/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/var/lib/snapd/snap/bin
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  18.12.1
+  18.13.0
 
 Platform: 
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/svelte-hightlight: Not found
-      at params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66145:18)
-      at self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140890:22)
-      at Request.emit (node:events:513:28)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141862:10)
-      at Request.emit (node:events:513:28)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141784:12)
-      at Object.onceWrapper (node:events:627:28)
-      at IncomingMessage.emit (node:events:525:35)
-      at endReadableNT (node:internal/streams/readable:1359:12)
-      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26)
 
 npm manifest: 
   {
@@ -75,6 +66,7 @@ npm manifest:
   		"highlight.js": "^11.7.0",
   		"openai": "^3.2.1",
   		"sse.js": "^0.6.1",
+  		"svelte-highlight": "^7.2.0",
   		"svelte-markdown": "^0.2.3"
   	}
   }
@@ -1394,7 +1386,7 @@ Lockfile:
     dependencies:
       function-bind "^1.1.1"
   
-  highlight.js@^11.7.0:
+  highlight.js@11.7.0, highlight.js@^11.7.0:
     version "11.7.0"
     resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.7.0.tgz#3ff0165bc843f8c9bce1fd89e2fda9143d24b11e"
     integrity sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==
@@ -2257,6 +2249,13 @@ Lockfile:
       sade "^1.7.4"
       svelte-preprocess "^5.0.0"
       typescript "^4.9.4"
+  
+  svelte-highlight@^7.2.0:
+    version "7.2.0"
+    resolved "https://registry.yarnpkg.com/svelte-highlight/-/svelte-highlight-7.2.0.tgz#a23b4284130b4d1ff746e661f9fc74a372d065f2"
+    integrity sha512-mOJltSmozHNuaIE4tglrOBQ9X/8sKoQMJfqm+YZUuHvzfAcefWtZVDFml2oUrEv8iehM79mdA9+0orhUWIrxWw==
+    dependencies:
+      highlight.js "11.7.0"
   
   svelte-hmr@^0.15.1:
     version "0.15.1"

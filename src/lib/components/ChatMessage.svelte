@@ -1,16 +1,21 @@
 <script lang="ts">
 	import CodeBlock from '$lib/components/CodeBlock.svelte'
-	import Icon from '$lib/components/Icon.svelte'
+	import AssistantIcon from '$lib/icons/AssistantIcon.svelte'
+	import UserIcon from '$lib/icons/UserIcon.svelte'
+	import ClipboardIcon from '$lib/icons/ClipboardIcon.svelte'
 	import { showRaw } from '$lib/settings'
+
 	export let text: string
 	export let sender: string
 
 	$: isAssistant = sender == 'assistant'
 	$: isUser = sender == 'user'
 
-	function getTextArray() {
+	$: textarray = getTextArray(text)
+
+	function getTextArray(receivedtext: string) {
 		// Turn the message into a set of text and codeblocks
-		const lines = text.split('\n')
+		const lines = receivedtext.split('\n')
 		const textArray = []
 
 		let inCodeBlock = false
@@ -20,18 +25,32 @@
 				if (!inCodeBlock) {
 					textArray.push({
 						type: 'code',
-						text: line
+						value: line
 					})
 				} else {
-					textArray[textArray.length - 1].text += `\n${line}`
+					let currenstring = textArray[textArray.length - 1].value
+					let newstring = currenstring
+					if (currenstring.endsWith('\n```')) {
+						newstring = currenstring.slice(0, currenstring.length - '\n```'.length)
+					}
+					newstring += `\n${line}`
+					textArray[textArray.length - 1].value = newstring
 				}
 				inCodeBlock = !inCodeBlock
 			} else if (inCodeBlock) {
-				textArray[textArray.length - 1].text += `\n${line}`
+				let currenstring = textArray[textArray.length - 1].value
+				let newstring = currenstring
+				if (currenstring.endsWith('\n```')) {
+					newstring = currenstring.slice(0, currenstring.length - '\n```'.length)
+				}
+				newstring += `\n${line}`
+				newstring += '\n```'
+
+				textArray[textArray.length - 1].value = newstring
 			} else {
 				textArray.push({
 					type: 'text',
-					text: line
+					value: line
 				})
 			}
 		}
@@ -52,7 +71,12 @@
 				class="relative h-[30px] w-[30px] p-1 rounded-sm text-white flex items-center justify-center"
 				style="background-color: rgb(16, 163, 127);"
 			>
-				<Icon name={isAssistant ? 'assistant' : 'user'} />
+				{#if isAssistant}
+					<AssistantIcon />
+				{:else}
+					<UserIcon />
+				{/if}
+				<!-- <Icon name={isAssistant ? 'assistant' : 'user'} /> -->
 			</div>
 		</div>
 		<div class="relative flex w-[calc(100%-50px)] flex-col gap-1 md:gap-3 lg:w-[calc(100%-115px)]">
@@ -61,11 +85,11 @@
 					{#if $showRaw}
 						<p>{text}</p>
 					{:else}
-						{#each getTextArray() as { type, text }}
+						{#each textarray as { type, value }}
 							{#if type === 'text'}
-								<p>{text}</p>
+								<p>{value}</p>
 							{:else}
-								<CodeBlock codestring={text} />
+								<CodeBlock bind:text={value} />
 							{/if}
 						{/each}
 					{/if}
