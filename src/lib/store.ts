@@ -7,3 +7,5 @@ export const chatMessages: Writable<ChatMessage[]> = writable([]);
 export const threads: Writable<Thread[]> = writable([]);
 
 export const thread_id: Writable<string> = writable('');
+
+export const new_thread: Writable<boolean> = writable(true);

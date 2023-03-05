@@ -15,9 +15,9 @@ export const supabase = createClient(
 export function createThreadIfNotExist(thread_id: string) {
 	const thread_data = {
 		thread_id: thread_id,
-		thread_name: 'Random name'
+		thread_name: 'Placeholder...'
 	}
-	supabase.from('threads').upsert(thread_data, { onConflict: 'thread_id' }).then((data, error) => {
+	supabase.from('threads').insert(thread_data).then((data, error) => {
 		if (error) {
 			console.log("Error creating thread: ", error)
 		}
@@ -35,7 +35,7 @@ export function upsertMessages(messages: ChatMessageType[]) {
 }
 
 export function getMessages(thread_id: string) {
-	return supabase.from('messages').select().eq('thread_id', thread_id)
+	return supabase.from('messages').select().eq('thread_id', thread_id).order("created_at", { ascending: true })
 		.then((data, error) => {
 			if (error) {
 				console.log("Error getting messages: ", error)
@@ -56,7 +56,6 @@ export function getThreads() {
 }
 
 export function deleteThread(thread_id: string) {
-
 	return supabase.from('messages').delete().eq('thread_id', thread_id).then((data, error) => {
 		if (error) {
 			console.log("Error deleting messages: ", error)
@@ -68,7 +67,15 @@ export function deleteThread(thread_id: string) {
 			return data
 		})
 	})
+}
 
-
-
+export function updateThreadName(thread_id: string, thread_name: string) {
+	console.log(thread_id)
+	return supabase.from('threads').update({ thread_name: thread_name }).eq('thread_id', thread_id).select().then((data, error) => {
+		if (error) {
+			console.log("Error updating thread name: ", error)
+		}
+		console.log("Updated thread: ", data)
+		return getThreads()
+	})
 }

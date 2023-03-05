@@ -3,10 +3,11 @@
 
 	import ThreadComponent from '$lib/components/ThreadComponent.svelte'
 
-	import { threads, thread_id, chatMessages } from '$lib/store'
+	import { threads, thread_id, chatMessages, new_thread } from '$lib/store'
 	import { v4 as uuidv4 } from 'uuid'
 
 	function newChat() {
+		$new_thread = true
 		$thread_id = uuidv4()
 		$chatMessages = []
 	}

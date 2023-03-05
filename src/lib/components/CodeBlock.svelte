@@ -23,9 +23,10 @@
 
 <div class="bg-black mb-4 rounded-md overflow-x-hidden w-full">
 	<div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans">
-		<span>{language}</span><button class="flex ml-auto gap-2">
+		<span>{language}</span>
+		<button class="flex flex-row items-center ml-auto gap-2">
 			<ClipboardIcon />
-			Copy code
+			<div>Copy code</div>
 		</button>
 	</div>
 	<div class="-mt-6">

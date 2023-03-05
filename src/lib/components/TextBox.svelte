@@ -26,7 +26,7 @@
 				class="flex flex-col w-full py-2 flex-grow md:py-3  relative text-white bg-[#40414F] rounded-md shadow-[0_0_15px_rgba(0,0,0,0.10)]"
 			>
 				<textarea
-					class="m-0 w-full resize-none outline-0 px-2  pr-7 focus:ring-0 focus-visible:ring-0 bg-transparent "
+					class="m-0 w-full resize-none focus-visible:border-0 outline-0 px-2 border-0 focus:border-0 pr-7 focus:ring-0 focus-visible:ring-0 bg-transparent "
 					style="max-height: 200px; height: {(1 + (text.match(/\n/g) || []).length) *
 						24}px; overflow-y: hidden;"
 					bind:value={text}
@@ -55,3 +55,10 @@
 		</div>
 	</form>
 </div>
+
+<style>
+	textarea:focus-visible {
+		border: 0;
+		outline: 0;
+	}
+</style>

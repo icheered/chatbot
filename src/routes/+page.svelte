@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ChatMessage from '$lib/components/ChatMessage.svelte'
-	import { chatMessages, thread_id, threads } from '$lib/store'
+	import { chatMessages, thread_id, threads, new_thread } from '$lib/store'
 	import TextBox from '$lib/components/TextBox.svelte'
 	import { SSE } from 'sse.js'
 	import BackgroundText from '$lib/components/BackgroundText.svelte'
@@ -8,7 +8,8 @@
 	import { showRaw } from '$lib/settings'
 	import { v4 as uuidv4 } from 'uuid'
 	import { onMount } from 'svelte'
-	import { upsertMessages, getThreads } from '$lib/supabase'
+	import { upsertMessages, getThreads, updateThreadName } from '$lib/supabase'
+	import { Configuration, OpenAIApi } from 'openai'
 
 	let query: string = ''
 	let answer: string = ''
@@ -39,10 +40,36 @@
 			payload: JSON.stringify({ messages: messagesWithoutID })
 		})
 		upsertMessages($chatMessages)
+
+		if ($new_thread) {
+			$new_thread = false
+			let msg = {
+				content: $chatMessages[0].content,
+				role: $chatMessages[0].role
+			}
+			console.log('CHATMESSAGES: ', msg)
+			fetch('/api/summary', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(msg)
+			})
+				.then(function (response) {
+					return response.json()
+				})
+				.then(function (data) {
+					console.log('TITLE: ', data.title)
+					updateThreadName($thread_id, data.title).then((threads) => {
+						$threads = threads
+					})
+				})
+		}
+
 		// If thread_id not in $threads refetch threads
 		if (!$threads.find((thread) => thread.thread_id === $thread_id)) {
 			$threads = await getThreads()
-			console.log($threads)
+			console.log('Threads: ', $threads)
 		}
 
 		query = ''
@@ -93,6 +120,7 @@
 	}
 
 	onMount(() => {
+		$new_thread = true
 		$thread_id = uuidv4()
 		console.log('Starting: ', $thread_id)
 	})
@@ -108,10 +136,10 @@
 			>
 				ICheered: Chatbot
 			</div>
-			<div class="absolute pt-3 flex flex-row justify-center">
+			<!-- <div class="absolute pt-3 flex flex-row justify-center">
 				<div class="pr-2">Show raw:</div>
 				<Toggle bind:state={$showRaw} />
-			</div>
+			</div> -->
 			<div class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full">
 				<ChatMessage sender="assistant" text={'Hi, how can I help you?'} />
 
