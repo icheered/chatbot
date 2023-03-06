@@ -1,9 +1,17 @@
 <script lang="ts">
 	import PlusIcon from '$lib/icons/PlusIcon.svelte'
+	import PromptIcon from '$lib/icons/PromptIcon.svelte'
 
 	import ThreadComponent from '$lib/components/ThreadComponent.svelte'
 	import Toggle from '$lib/components/Toggle.svelte'
-	import { threads, thread_id, chatMessages, new_thread, showRaw } from '$lib/store'
+	import {
+		threads,
+		thread_id,
+		chatMessages,
+		new_thread,
+		showRaw,
+		showSuffixPrompt
+	} from '$lib/store'
 	import { v4 as uuidv4 } from 'uuid'
 
 	function newChat() {
@@ -33,5 +41,16 @@
 	<div class="pt-3 flex flex-row justify-center">
 		<div class="pr-2">Show raw:</div>
 		<Toggle bind:state={$showRaw} />
+	</div>
+	<div class="flex flex-row justify-center">
+		<!-- svelte-ignore a11y-missing-attribute -->
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<a
+			class="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm"
+			on:click={() => ($showSuffixPrompt = true)}
+		>
+			<PromptIcon />
+			Set suffix prompt
+		</a>
 	</div>
 </nav>

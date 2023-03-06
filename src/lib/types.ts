@@ -9,3 +9,8 @@ export interface Thread {
     thread_id: string;
     thread_name: string;
 }
+
+export interface Setting {
+    key: string;
+    value: string;
+}

@@ -1,13 +1,16 @@
 <script lang="ts">
 	import '../app.css'
 	import Sidebar from '$lib/components/Sidebar.svelte'
+	import Modal from '$lib/components/Modal.svelte'
 	export let data: any
 
-	import { threads } from '$lib/store'
+	import { threads, storedSettings } from '$lib/store'
 	$threads = data.threads
+	$storedSettings = data.settings
 </script>
 
 <div class="flex flex-row h-screen w-screen ">
+	<Modal />
 	<div>
 		<Sidebar />
 	</div>

@@ -54,6 +54,15 @@ export function getThreads() {
 		return data.data
 	})
 }
+export function getSettings() {
+	return supabase.from('settings').select().then((data, error) => {
+		if (error) {
+			console.log("Error getting settings: ", error)
+			throw error
+		}
+		return data.data
+	})
+}
 
 export function deleteThread(thread_id: string) {
 	return supabase.from('messages').delete().eq('thread_id', thread_id).then((data, error) => {
@@ -77,5 +86,14 @@ export function updateThreadName(thread_id: string, thread_name: string) {
 		}
 		console.log("Updated thread: ", data)
 		return getThreads()
+	})
+}
+
+export function updateSuffixPrompt(suffix_prompt: string) {
+	return supabase.from('settings').upsert({ value: suffix_prompt, key: 'suffix_prompt' }).eq('key', "suffix_prompt").select().then((data, error) => {
+		if (error) {
+			console.log("Error updating suffix prompt: ", error)
+		}
+		console.log("Updated suffix prompt: ", data)
 	})
 }

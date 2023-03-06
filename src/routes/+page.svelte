@@ -1,12 +1,13 @@
 <script lang="ts">
-	import ChatMessage from '$lib/components/ChatMessage.svelte'
-	import { chatMessages, thread_id, threads, new_thread } from '$lib/store'
-	import TextBox from '$lib/components/TextBox.svelte'
-	import { SSE } from 'sse.js'
-	import BackgroundText from '$lib/components/BackgroundText.svelte'
-	import { v4 as uuidv4 } from 'uuid'
 	import { onMount } from 'svelte'
+	import { v4 as uuidv4 } from 'uuid'
+	import { SSE } from 'sse.js'
+
+	import ChatMessage from '$lib/components/ChatMessage.svelte'
+	import TextBox from '$lib/components/TextBox.svelte'
+	import BackgroundText from '$lib/components/BackgroundText.svelte'
 	import { upsertMessages, getThreads, updateThreadName } from '$lib/supabase'
+	import { chatMessages, thread_id, threads, new_thread, storedSettings } from '$lib/store'
 
 	let query: string = ''
 	let answer: string = ''
@@ -24,6 +25,12 @@
 
 	const handleSubmit = async () => {
 		loading = true
+
+		let suffixprompt = $storedSettings.find((s) => s.key === 'suffix_prompt')?.value ?? ''
+		if (suffixprompt) {
+			query = `${query}\n|||${suffixprompt}|||`
+		}
+
 		$chatMessages = [
 			...$chatMessages,
 			{ role: 'user', content: query, id: uuidv4(), thread_id: $thread_id }

@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let text: string
 	export let handleSubmit: Function
+	import PaperPlaneIcon from '$lib/icons/PaperPlaneIcon.svelte'
 
 	function handleKeyDown(event: any) {
 		if (event.key === 'Enter') {
@@ -35,22 +36,9 @@
 				<button
 					class="absolute p-1 rounded-md  text-gray-500 bottom-1.5 right-1 md:bottom-2.5 md:right-2  hover:text-gray-400 hover:bg-gray-900"
 					type="submit"
-					><svg
-						stroke="currentColor"
-						fill="none"
-						stroke-width="2"
-						viewBox="0 0 24 24"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="h-4 w-4 mr-1"
-						height="1em"
-						width="1em"
-						xmlns="http://www.w3.org/2000/svg"
-						><line x1="22" y1="2" x2="11" y2="13" /><polygon
-							points="22 2 15 22 11 13 2 9 22 2"
-						/></svg
-					></button
 				>
+					<PaperPlaneIcon />
+				</button>
 			</div>
 		</div>
 	</form>
