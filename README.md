@@ -8,6 +8,12 @@ Features
 - [x] Message history (like chatgpt)
 - [x] Raw code toggle
 - [x] Suffix prompt (add certain text to every single request)
+- [ ] Mobile support
+- [ ] Hide suffix prompt, and add hover-able info icon
+- [ ] Store API keys in localstorage
+- [ ] Add a login screen?
+- [ ] Format tables as latex tables
+- [ ] Let AI response stream to the correct chat instead of the selected chat
 
 
 Demonstration of working base stuff:

@@ -7,7 +7,14 @@
 	import TextBox from '$lib/components/TextBox.svelte'
 	import BackgroundText from '$lib/components/BackgroundText.svelte'
 	import { upsertMessages, getThreads, updateThreadName } from '$lib/supabase'
-	import { chatMessages, thread_id, threads, new_thread, storedSettings } from '$lib/store'
+	import {
+		chatMessages,
+		thread_id,
+		threads,
+		new_thread,
+		storedSettings,
+		current_thread_name
+	} from '$lib/store'
 
 	let query: string = ''
 	let answer: string = ''
@@ -138,7 +145,7 @@
 			<div
 				class="flex w-full items-center justify-center gap-1 border-b  p-3  border-gray-900/50 bg-[#40414F] text-gray-300"
 			>
-				ICheered: Chatbot
+				{$current_thread_name ? $current_thread_name : 'ICheered: Chatbot'}
 			</div>
 			<div class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full">
 				<ChatMessage sender="assistant" text={'Hi, how can I help you?'} />

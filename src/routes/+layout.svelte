@@ -11,7 +11,7 @@
 
 <div class="flex flex-row h-screen w-screen ">
 	<Modal />
-	<div>
+	<div class="w-80">
 		<Sidebar />
 	</div>
 

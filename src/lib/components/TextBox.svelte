@@ -2,16 +2,36 @@
 	export let text: string
 	export let handleSubmit: Function
 	import PaperPlaneIcon from '$lib/icons/PaperPlaneIcon.svelte'
+	import { onMount } from 'svelte'
+
+	let textarea: any = null
 
 	function handleKeyDown(event: any) {
+		console.log(event.key)
 		if (event.key === 'Enter') {
 			if (!event.shiftKey) {
 				handleSubmit()
 				text = ''
 				event.preventDefault()
+				textarea.style.height = `24px`
 			}
 		}
 	}
+
+	onMount(() => {
+		textarea = document.getElementById('my-textarea')
+
+		textarea.addEventListener('input', () => {
+			textarea.style.height = 'auto'
+			textarea.style.height = `${textarea.scrollHeight}px`
+		})
+
+		textarea.addEventListener('keydown', (event) => {
+			if (event.key === 'Enter' && event.shiftKey) {
+				textarea.style.height = `${textarea.scrollHeight + 20}px` // increase height by 20px for new line
+			}
+		})
+	})
 </script>
 
 <div
@@ -26,10 +46,18 @@
 			<div
 				class="flex flex-col w-full py-2 flex-grow md:py-3  relative text-white bg-[#40414F] rounded-md shadow-[0_0_15px_rgba(0,0,0,0.10)]"
 			>
+				<!-- <textarea
+					id="my-textarea"
+					class="h-auto resize-y m-0 w-full focus-visible:border-0 outline-0 px-2 border-0 focus:border-0 pr-7 focus:ring-0 focus-visible:ring-0 bg-transparent "
+					style="max-height: 200px; overflow: hidden; height: 20px;"
+					bind:value={text}
+				/> -->
 				<textarea
-					class="m-0 w-full resize-none focus-visible:border-0 outline-0 px-2 border-0 focus:border-0 pr-7 focus:ring-0 focus-visible:ring-0 bg-transparent "
-					style="max-height: 200px; height: {(1 + (text.match(/\n/g) || []).length) *
-						24}px; overflow-y: hidden;"
+					id="my-textarea"
+					tabindex="0"
+					style="max-height: 200px; height: 24px; overflow-y: hidden;"
+					rows="1"
+					class="ml-2  m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-10 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0 focus-visible:border-0 outline-0"
 					bind:value={text}
 				/>
 
