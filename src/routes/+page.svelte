@@ -130,10 +130,15 @@
 		console.error(err)
 	}
 
+	let container: any
+
 	onMount(() => {
 		$new_thread = true
 		$thread_id = uuidv4()
 		console.log('Starting: ', $thread_id)
+		container.addEventListener('DOMNodeInserted', () => {
+			container.scrollTo({ top: container.scrollHeight })
+		})
 	})
 </script>
 
@@ -147,7 +152,10 @@
 			>
 				{$current_thread_name ? $current_thread_name : 'ICheered: Chatbot'}
 			</div>
-			<div class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full">
+			<div
+				class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full"
+				bind:this={container}
+			>
 				<ChatMessage sender="assistant" text={'Hi, how can I help you?'} />
 
 				{#if !$chatMessages.length}
