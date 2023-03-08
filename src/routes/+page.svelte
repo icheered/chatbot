@@ -50,6 +50,7 @@
 			},
 			payload: JSON.stringify({ messages: messagesWithoutID })
 		})
+
 		upsertMessages($chatMessages)
 
 		if ($new_thread) {

@@ -90,7 +90,8 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		return new Response(chatResponse.body, {
 			headers: {
-				'Content-Type': 'text/event-stream'
+				'Content-Type': 'text/event-stream',
+				'test': 'testvalue'
 			}
 		})
 	} catch (err) {

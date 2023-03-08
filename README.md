@@ -9,6 +9,7 @@ Features
 - [x] Raw code toggle
 - [x] Suffix prompt (add certain text to every single request)
 - [ ] Mobile support
+- [ ] Show token usage in thread title
 - [ ] Hide suffix prompt, and add hover-able info icon
 - [ ] Store API keys in localstorage
 - [ ] Add a login screen?
