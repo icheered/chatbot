@@ -89,6 +89,21 @@ export function updateThreadName(thread_id: string, thread_name: string) {
 	})
 }
 
+export function updateThreadTokens(thread_id: string, tokens: number) {
+	// thread_id = "eabe6e80-e95d-466a-aeb5-c0ece9aed6d1"
+	// tokens = 10
+	console.log("Updating tokens!")
+
+	return supabase.from('threads').update({ tokens: tokens }).eq('thread_id', thread_id).select().then((data, error) => {
+		if (error) {
+			console.log("Error updating thread tokens: ", error)
+		}
+		console.log("Updated thread: ", data)
+		//return getThreads()
+	})
+}
+
+
 export function updateSuffixPrompt(suffix_prompt: string) {
 	return supabase.from('settings').upsert({ value: suffix_prompt, key: 'suffix_prompt' }).eq('key', "suffix_prompt").select().then((data, error) => {
 		if (error) {

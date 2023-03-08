@@ -74,14 +74,22 @@ export const POST: RequestHandler = async ({ request }) => {
 			stream: true
 		}
 
-		const chatResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-			headers: {
-				Authorization: `Bearer ${OPENAI_KEY}`,
-				'Content-Type': 'application/json'
-			},
-			method: 'POST',
-			body: JSON.stringify(chatRequestOpts)
-		})
+		let chatResponse: any = null;
+
+		try {
+			chatResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+				headers: {
+					Authorization: `Bearer ${OPENAI_KEY}`,
+					'Content-Type': 'application/json',
+					'X-Custom-Value': 'test'
+				},
+				method: 'POST',
+				body: JSON.stringify(chatRequestOpts)
+			})
+		} catch (err) {
+			console.error(err)
+		}
+
 
 		if (!chatResponse.ok) {
 			const err = await chatResponse.json()
@@ -91,9 +99,10 @@ export const POST: RequestHandler = async ({ request }) => {
 		return new Response(chatResponse.body, {
 			headers: {
 				'Content-Type': 'text/event-stream',
-				'test': 'testvalue'
+				'SomeCustomValue': 'testvalue'
 			}
 		})
+
 	} catch (err) {
 		console.error(err)
 		return json({ error: 'There was an error processing your request' }, { status: 500 })

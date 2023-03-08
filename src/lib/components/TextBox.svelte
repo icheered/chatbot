@@ -7,7 +7,6 @@
 	let textarea: any = null
 
 	function handleKeyDown(event: any) {
-		console.log(event.key)
 		if (event.key === 'Enter') {
 			if (!event.shiftKey) {
 				handleSubmit()

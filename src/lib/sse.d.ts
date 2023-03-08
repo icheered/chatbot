@@ -10,3 +10,4 @@ declare module 'sse.js' {
 		stream(): void
 	}
 }
+

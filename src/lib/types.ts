@@ -8,6 +8,7 @@ export interface ChatMessage {
 export interface Thread {
     thread_id: string;
     thread_name: string;
+    tokens: number;
 }
 
 export interface Setting {

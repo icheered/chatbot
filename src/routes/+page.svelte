@@ -6,29 +6,22 @@
 	import ChatMessage from '$lib/components/ChatMessage.svelte'
 	import TextBox from '$lib/components/TextBox.svelte'
 	import BackgroundText from '$lib/components/BackgroundText.svelte'
-	import { upsertMessages, getThreads, updateThreadName } from '$lib/supabase'
+	import { upsertMessages, getThreads, updateThreadName, updateThreadTokens } from '$lib/supabase'
 	import {
 		chatMessages,
 		thread_id,
 		threads,
 		new_thread,
 		storedSettings,
-		current_thread_name
+		current_thread
 	} from '$lib/store'
+	import { getTokens } from '$lib/tokenizer'
 
 	let query: string = ''
 	let answer: string = ''
 	let answer_id: string = ''
 
 	let loading: boolean = false
-
-	// let scrollToDiv: HTMLDivElement
-
-	// function scrollToBottom() {
-	// 	setTimeout(function () {
-	// 		scrollToDiv.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' })
-	// 	}, 100)
-	// }
 
 	const handleSubmit = async () => {
 		loading = true
@@ -51,8 +44,6 @@
 			payload: JSON.stringify({ messages: messagesWithoutID })
 		})
 
-		upsertMessages($chatMessages)
-
 		if ($new_thread) {
 			$new_thread = false
 			let msg = {
@@ -71,12 +62,19 @@
 					return response.json()
 				})
 				.then(function (data) {
-					console.log('TITLE: ', data.title)
 					updateThreadName($thread_id, data.title).then((threads) => {
 						$threads = threads
 					})
 				})
 		}
+
+		let tokenCount = 0
+		messagesWithoutID.forEach((msg) => {
+			const tokens = getTokens(msg.content!)
+			tokenCount += tokens
+		})
+		console.log('Tokencount:', tokenCount)
+		updateThreadTokens($thread_id, tokenCount)
 
 		// If thread_id not in $threads refetch threads
 		if (!$threads.find((thread) => thread.thread_id === $thread_id)) {
@@ -89,7 +87,6 @@
 		eventSource.addEventListener('error', handleError)
 
 		eventSource.addEventListener('message', (e) => {
-			//scrollToBottom()
 			try {
 				loading = false
 				if (e.data === '[DONE]') {
@@ -121,7 +118,6 @@
 			}
 		})
 		eventSource.stream()
-		//scrollToBottom()
 	}
 
 	function handleError(err: any) {
@@ -151,7 +147,10 @@
 			<div
 				class="flex w-full items-center justify-center gap-1 border-b  p-3  border-gray-900/50 bg-[#40414F] text-gray-300"
 			>
-				{$current_thread_name ? $current_thread_name : 'ICheered: Chatbot'}
+				{$current_thread?.thread_name ? $current_thread.thread_name : 'ICheered: Chatbot'}
+				<dir class="right-0 button p-2 bg-gray-900">
+					{`🪙: ${$current_thread?.tokens ?? 0} `}
+				</dir>
 			</div>
 			<div
 				class="flex flex-col items-center text-sm  overflow-y-auto pb-48 h-full"
